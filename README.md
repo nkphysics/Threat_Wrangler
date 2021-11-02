@@ -3,6 +3,9 @@
 
 A program that pulls and records indicators of compromise (IOCs) from a user's subscriptions from the Alien Vault Open Threat Exchange and Threat Fox by abuse.ch.
 
+License: Apache 2.0
+
+Note: This project was started on October 10, 2021. Due to malfunctions with git the older Threat Wrangler repo with 23 commits was purged and a new one was created as of November 1, 2021 (See note of this in CHANGELOG). 
 
 ## Dependent Libraries
 
@@ -24,7 +27,7 @@ A program that pulls and records indicators of compromise (IOCs) from a user's s
 
 ``python3 threat_wrangler.py (command) (source)``
 
-###Notes
+### Notes
  * The first time you run Threat Wrangler you will be prompted to enter in your api keys.
  * You can type in Alienvault and ThreatFox fully as the source or you can simply type av for Alienvault and tf for ThreatFox.
  * Currently the only command supported is pull, to pull IOCs
