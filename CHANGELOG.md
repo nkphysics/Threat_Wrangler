@@ -3,6 +3,14 @@
 NOTE: Each commit is not necessarily a version change. Therefore, a new version have many changes from multiple dates. 
 Please see the following logged changes.
 
+### v0.2.0
+Date: November 1, 2021
+* .gitnore wasn't ignoring certain files which created a security issue (due to non up to date git), so ...
+1. contents of original repo were copied
+2. new git was installed
+3. old repo was purged
+4. new repo was created 
+
 ### v0.1.3
 
 * Added ThreatFox API to pull all IOCs added in the last 24 hrs.
@@ -22,5 +30,5 @@ Please see the following logged changes.
 * First Push to github/gitlab
 
 ### v0.1
-
+Date: October 10, 2021
 * Initial code that pulls subscribed pulses from Alienvault OTX
