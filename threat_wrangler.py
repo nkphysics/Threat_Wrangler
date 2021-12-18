@@ -87,13 +87,17 @@ class Threat_Wrangler(object):
 			self.IOC_write(i)
 		print("All IOCs Written and Logged")
 
-	def pull_fox(self):
+	def pull_fox(self, time):
 		# Pulls all IOCs from threatfox
+		if time == None:
+			time = 1
+		else:
+			pass
 		print("Pulling ThreatFox IOCs")
 		r = requests.post(
 			self.store.loc[1, "URL"],
 			headers={"X-API-TOKEN": self.store.loc[1, "API_KEY"]},
-			data=json.dumps({"query": "get_iocs", "days": 1}),
+			data=json.dumps({"query": "get_iocs", "days": time}),
 		)
 		pull0 = 0
 		if r.status_code == 200:
@@ -106,12 +110,9 @@ class Threat_Wrangler(object):
 		for i in load["data"]:
 			iocs.append(i["ioc"])
 			tags.append(i["malware_printable"])
-			df = pd.DataFrame({"Indicator": iocs, "Tag": tags})
-			self.writeout(df, "ThreatFox")
-			break # Only here since there are so many IOCs being pulled that the actual pulling takes forever
-			if 'next' in pulses:
-				if pulses['next']:
-					pull0 = requests.get(pulses['next'], headers={'X-OTX-API-KEY':self.store.loc[0, 'API_KEY']}).text
+		df = pd.DataFrame({"Indicator": iocs, "Tag": tags})
+		self.writeout(df, "ThreatFox")
+			
 	def show_ps(self):
 		# shows the pulses that were pulled (Currently not in use, but useful for future functionality)
 		ioc_c = 0
@@ -141,14 +142,14 @@ class Threat_Wrangler(object):
 		ioc_df = pd.DataFrame({"Indicator": iocs, "Tag": ttags})
 		self.writeout(ioc_df, ttags[0])
 		
-	def pull(self, source):
+	def pull(self, source, time):
 		tw.check_store()
 		av = ['otx', 'OTX', 'alienvault', 'AlienVault', 'av', 'AV']
 		tf = ['threatfox', 'threat fox', 'ThreatFox', 'tf', 'TF']
 		if source in av:
 			tw.pullOTX()
 		elif source in tf:
-			tw.pull_fox()
+			tw.pull_fox(time)
 		else:
 			print("Source Not Found")
 				
@@ -156,9 +157,10 @@ class Threat_Wrangler(object):
 		p = ap.ArgumentParser()
 		p.add_argument("command", type=str)
 		p.add_argument("source", type=str, nargs="?")
+		p.add_argument("time_frame", type=int, nargs="?")
 		args = p.parse_args()
 		if args.command == "Pull" or args.command == "pull":
-			self.pull(args.source)
+			self.pull(args.source, args.time_frame)
 		else:
 			print("Unknown Command: " + str(args.command))
 			
