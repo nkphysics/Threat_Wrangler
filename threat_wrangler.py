@@ -105,10 +105,15 @@ class Threat_Wrangler(object):
 		else:
 			print("Issue with Retrieval from ThreatFox")
 		load = json.loads(pull0)
+		# print(load["data"])
 		iocs = []
 		tags = []
 		for i in load["data"]:
-			iocs.append(i["ioc"])
+			if i["ioc_type"] == "ip:port":
+				ioc = i["ioc"].split(":")[0]
+			else:
+				ioc = i["ioc"]
+			iocs.append(ioc)
 			tags.append(i["malware_printable"])
 		df = pd.DataFrame({"Indicator": iocs, "Tag": tags})
 		self.writeout(df, "ThreatFox")
