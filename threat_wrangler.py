@@ -43,7 +43,7 @@ class Threat_Wrangler(object):
 		base_dir = os.getcwd()
 		date = dt.datetime.now()
 		date_str = date.strftime("%Y-%m-%d_T%H%M%S")
-		outpath = pl.Path(base_dir, "IOCs", str(ct) + str(date_str) + ".csv")
+		outpath = pl.Path(base_dir, str(ct) + str(date_str) + ".csv")
 		frame.to_csv(outpath, index=False)
 		print("IOC file written out at: " + str(outpath))
 		nl = pd.Series(
@@ -105,7 +105,6 @@ class Threat_Wrangler(object):
 		else:
 			print("Issue with Retrieval from ThreatFox")
 		load = json.loads(pull0)
-		# print(load["data"])
 		iocs = []
 		tags = []
 		for i in load["data"]:
