@@ -96,7 +96,7 @@ class Threat_Wrangler(object):
 		print("Pulling ThreatFox IOCs")
 		r = requests.post(
 			self.store.loc[1, "URL"],
-			headers={"X-API-TOKEN": self.store.loc[1, "API_KEY"]},
+			headers={"X-API-TOKEN": ""},
 			data=json.dumps({"query": "get_iocs", "days": time}),
 		)
 		pull0 = 0
